@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  tupescript: { ignoreBuildErrors: true },
+  typescript: { ignoreBuildErrors: true },
   images: {
     remotePatterns: [
       {
