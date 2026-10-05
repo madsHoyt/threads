@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
+import { useOrganization } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -30,6 +31,7 @@ interface Props {
 function PostThread({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { organization } = useOrganization();
   const form = useForm<z.infer<typeof ThreadValidation>>({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
@@ -39,11 +41,12 @@ function PostThread({ userId }: { userId: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    console.log("org id: ", organization);
     // Do something with the form values.
     await createThread({
       text: values.thread,
       author: userId,
-      communityId: null,
+      communityId: organization ? organization.id : null,
       path: pathname,
     });
 
